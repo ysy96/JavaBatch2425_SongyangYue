@@ -9,16 +9,20 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    public ProductService(ProductRepository repository) {
+        this.repository = repository;
+    }
 
     public Product saveProduct(Product product){
         return repository.save(product);
     }
 
-    public List<Product> saveProducts(List<Product> products){
-        return repository.saveAll(products);
-    }
+//    public List<Product> saveProducts(List<Product> products){
+//        return repository.saveAll(products);
+//    }
 
     public List<Product> getProducts(){
         return repository.findAll();
@@ -28,17 +32,17 @@ public class ProductService {
         return repository.findById(id).orElse(null);
     }
 
-    public Product getProductByName(String name){
-        return repository.findByName(name);
-    }
+//    public Product getProductByName(String name){
+//        return repository.findByName(name);
+//    }
 
     public String deleteProduct(int id){
         repository.deleteById(id);
         return "product removed !!" + id;
     }
 
-    public Product updateProduct(Product product){
-        Product existingProduct = repository.findById(product.getId()).orElse(null);
+    public Product updateProduct(int id, Product product){
+        Product existingProduct = repository.findById(id).orElse(null);
         existingProduct.setName(product.getName());
         existingProduct.setQuantity(product.getQuantity());
         existingProduct.setPrice(product.getPrice());
